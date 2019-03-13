@@ -7,7 +7,7 @@ import br.com.fiap.to.ProdutoTO;
 public class ProdutoBO {
 	
 	//Regras de negócio	
-	public ProdutoTO consultarProduto(int codigo) throws Exception {
+	public ProdutoTO consultarProduto(int codigo) throws AxisFault {
 		ProdutoTO pto = null;
 		switch (codigo) {
 		case 401:
