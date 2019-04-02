@@ -5,9 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -60,6 +63,34 @@ public class ComidaResource {
 		builder.path(Integer.toString(comida.getCodigo()));
 		
 		return Response.created(builder.build()).build();
+	}
+	
+	@PUT
+	@Path("{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response atualizar(Comida comida, @PathParam("id") int codigo) {
+		try {
+			comida.setCodigo(codigo);
+			dao.atualizar(comida);
+			dao.commit();
+		} catch (CommitException e) {
+			e.printStackTrace();
+			Response.serverError().build();
+		}
+		return Response.ok().build();
+	}
+	
+	@DELETE
+	@Path("{id}")
+	public Response remover(@PathParam("id") int codigo) {
+		try {
+			dao.remover(codigo);
+			dao.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Response.serverError().build();
+		}
+		return Response.noContent().build();
 	}
 	
 }
