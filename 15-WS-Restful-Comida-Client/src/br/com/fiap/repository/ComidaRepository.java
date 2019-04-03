@@ -45,7 +45,7 @@ public class ComidaRepository {
 	//Cadastrar
 	public void cadastrar(ComidaTO comida) throws Exception{
 		WebResource r = client.resource(url);
-		ClientResponse response = r.accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, comida);
+		ClientResponse response = r.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, comida);
 		
 		if (response.getStatus() != 201) {
 			throw new Exception();
@@ -55,7 +55,7 @@ public class ComidaRepository {
 	//Atualizar
 	public void atualizar(ComidaTO comida) throws Exception {
 		WebResource r = client.resource(url + comida.getCodigo());
-		ClientResponse response = r.accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, comida);
+		ClientResponse response = r.type(MediaType.APPLICATION_JSON).put(ClientResponse.class, comida);
 		
 		if (response.getStatus() != 200) {
 			throw new Exception();
