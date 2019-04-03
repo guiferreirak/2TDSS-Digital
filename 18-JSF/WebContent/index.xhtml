@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:head>
+		<title>JSF Introdução</title>
+	</h:head>
+	
+	<h:body>
+		
+		<h1>JSF Introdução - Olá mundo!</h1>
+		
+		<h:form>
+			<h:outputLabel value="Nome"/>
+			<h:inputText value="#{indexBean.nome}"/>
+			
+			<h:commandButton value="OK" 
+				             action="#{indexBean.ok()}"/>
+		</h:form>
+
+	</h:body>
+	
+</html>
