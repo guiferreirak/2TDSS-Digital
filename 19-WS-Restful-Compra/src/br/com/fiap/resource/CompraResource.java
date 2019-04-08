@@ -23,6 +23,8 @@ import br.com.fiap.exception.ChaveInexistenteException;
 import br.com.fiap.exception.CommitException;
 import br.com.fiap.singleton.EntityManagerFactorySingleton;
 
+//Web Service
+
 @Path("/compra")
 public class CompraResource {
 	

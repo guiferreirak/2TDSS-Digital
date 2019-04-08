@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+//bean
 public class CompraTO {
 	
 	private Integer id;
