@@ -53,7 +53,7 @@
 			<artifactId>jdbc-driver</artifactId>
 			<version>12</version>
 			<scope>system</scope>
-			<systemPath>C:/ojdbc8.jar</systemPath>
+			<systemPath>D:/ojdbc8.jar</systemPath>
 		</dependency>
 	</dependencies>
 </project>
