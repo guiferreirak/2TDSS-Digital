@@ -8,6 +8,9 @@
 
 	<head>
 		<title>Cadastrar Reservas</title>
+		<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+			  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		 -->
 	</head>
 	
 	<body>
@@ -28,12 +31,13 @@
 				<h:inputText value="#{reservaBean.reserva.preco}" id="preco"/>
 			</div>
 			
-			<h:commandButton value="Cadastrar" actionListener="#{reservaBean.cadastrar()}"/>
+			<h:commandButton value="#{reservaBean.reserva.codigo==null?'Cadastrar':'Atualizar'}" 
+							 actionListener="#{reservaBean.cadastrar()}"/>
 			
 		</h:form>
 		
 		<div>
-			<h2>Lavagens</h2>
+			<h2>Listar</h2>
 			
 			<h:dataTable value="#{reservaBean.listar()}" var="l">
 				
@@ -49,10 +53,18 @@
 					<f:facet name="header">Preço</f:facet>
 					#{l.preco}
 				</h:column>
+				<h:column>
+					<h:form>
+						<h:commandButton value="Alterar">
+							<f:setPropertyActionListener value="#{l}" target="#{reservaBean.reserva}"/>
+						</h:commandButton>
+						
+						<h:commandButton value="Excluir" action="#{reservaBean.deletar(l.codigo)}"/>	
+					</h:form>
+				</h:column>
 				
 			</h:dataTable>
 		</div>
-		
 		
 	</body>
 	
