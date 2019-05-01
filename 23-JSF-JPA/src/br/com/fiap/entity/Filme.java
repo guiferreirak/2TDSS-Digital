@@ -7,30 +7,27 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
-@SequenceGenerator(name="filme", sequenceName="SQ_T_FILME", allocationSize=1)
+@SequenceGenerator(name="filme",sequenceName="SQ_FILME",allocationSize=1)
 public class Filme {
-	
-	@Id
-	@GeneratedValue(generator="filme", strategy=GenerationType.SEQUENCE)
-	private int id;
 
+	@Id
+	@GeneratedValue(generator="filme",strategy=GenerationType.SEQUENCE)
+	private int codigo;
+	
 	private String titulo;
 	
-	@Temporal(TemporalType.DATE)
 	private Calendar dataLancamento;
 	
 	private boolean dublado;
-	
-	public int getId() {
-		return id;
+
+	public int getCodigo() {
+		return codigo;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getTitulo() {

@@ -7,24 +7,23 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.EntityManager;
 
+import br.com.fiap.dao.FilmeDAO;
 import br.com.fiap.dao.impl.FilmeDAOImpl;
 import br.com.fiap.entity.Filme;
+import br.com.fiap.exception.CommitException;
 import br.com.fiap.singleton.EntityManagerFactorySingleton;
 
 @ManagedBean
-@ViewScoped
-public class FilmeBean implements Serializable{
-	
+@RequestScoped
+public class FilmeBean implements Serializable {
+
 	private Filme filme;
 	
-	private FilmeDAOImpl dao;
+	private FilmeDAO dao;
 	
-	private EntityManager em; 
-
 	public Filme getFilme() {
 		return filme;
 	}
@@ -32,42 +31,53 @@ public class FilmeBean implements Serializable{
 	public void setFilme(Filme filme) {
 		this.filme = filme;
 	}
-
-	public FilmeDAOImpl getDao() {
-		return dao;
-	}
-
-	public void setDao(FilmeDAOImpl dao) {
-		this.dao = dao;
-	}
 	
 	@PostConstruct
 	public void init() {
-		em = EntityManagerFactorySingleton.getInstance().createEntityManager();
-		setFilme(new Filme());
+		filme = new Filme();
 		filme.setDataLancamento(Calendar.getInstance());
-		dao = new FilmeDAOImpl(em);
-	}
-	
-	public void exibeMensagem(String mensagem) {
-		FacesMessage msg = new FacesMessage(mensagem);
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-	
-	public void cadastrar() {
-		System.out.println("aqui");
-		try {
-			dao.cadastrar(filme);
-			dao.commit();
-			exibeMensagem("Cadastrado com sucesso");
-		} catch (Exception e) {
-			e.printStackTrace();
-			exibeMensagem("Erro ao cadastrar");
-		}
+		dao = new FilmeDAOImpl(EntityManagerFactorySingleton.getInstance().createEntityManager());
 	}
 	
 	public List<Filme> listar(){
 		return dao.listar();
+	}
+
+	public String salvar() {
+		try {
+			if (filme.getCodigo() == 0) {
+				dao.cadastrar(filme);
+				dao.commit();
+				adicionarMensagem("Cadastrado!");
+			} else {
+				dao.atualizar(filme);
+				dao.commit();
+				adicionarMensagem("Atualizado!");
+			}
+			return "lista-filme?faces-redirect=true"; //navega para a pág lista-filme.xhtml
+		} catch (Exception e) {
+			e.printStackTrace();
+			adicionarMensagem("Erro..");
+			return "cadastro-filme";
+		}
+	}
+	
+	public String deletar(int codigo) {
+		try {
+			dao.remover(codigo);
+			dao.commit();
+			adicionarMensagem("Excluido com sucesso");
+		} catch (Exception e) {
+			e.printStackTrace();
+			adicionarMensagem("Erro ao excluir");
+		}
+		return "lista-filme?faces-redirect=true";
+	}
+	
+	private void adicionarMensagem(String mensagem) {
+		FacesMessage msg = new FacesMessage(mensagem);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 	}
 	
 }

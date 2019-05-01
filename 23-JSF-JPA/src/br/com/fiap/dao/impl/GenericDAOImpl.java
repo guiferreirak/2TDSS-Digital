@@ -64,7 +64,7 @@ public abstract class GenericDAOImpl<T,K>
 
 	@Override
 	public List<T> listar() {
-		return em.createQuery("from " + clazz.getName(),clazz).getResultList();
+		return em.createQuery("from " + clazz.getName() + " order by codigo",clazz).getResultList();
 	}
 
 	

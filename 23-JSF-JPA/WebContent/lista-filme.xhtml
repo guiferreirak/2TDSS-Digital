@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:composition template="_template.xhtml">
+		
+		<ui:define name="title">Lista de Filmes</ui:define>
+		
+		<ui:define name="content">
+			<h1>Lista de Filmes</h1>
+		
+			<h:messages styleClass="alert alert-success"/>
+			
+			<h:link outcome="cadastro-filme">Cadastrar</h:link>
+			
+			<h:dataTable styleClass="table" value="#{filmeBean.listar()}" var="f">
+				<h:column>
+					<f:facet name="header">Título</f:facet>
+					#{f.titulo}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Data Lançamento</f:facet>
+					<h:outputText value="#{f.dataLancamento.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Dublado</f:facet>
+					#{f.dublado?"Sim":"Não"}
+				</h:column>
+				<h:column>
+					<h:form>
+						<h:commandButton action="cadastro-filme" styleClass="btn btn-outline-primary" value="Editar">
+							<f:setPropertyActionListener value="#{f}" target="#{filmeBean.filme}"/>
+						</h:commandButton>
+						<h:commandButton action="#{filmeBean.deletar(f.codigo)}" styleClass="btn btn-outline-danger" value="Remover" />
+					</h:form>
+				</h:column>
+			</h:dataTable>
+		</ui:define>
+		
+	</ui:composition>
+
+</html>
